@@ -1,0 +1,17 @@
+{
+  "name": "dot11-common",
+  "version": "1.0.0",
+  "description": "Common routines for dot11 apps",
+  "main": "dist/dot11-common.js",
+  "author": "Robert Stacey <rjstacey@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6",
+    "prop-types": ">=15.7.2"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "@emotion/styled": "^10.0.27"
+  },
+}
