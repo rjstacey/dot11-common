@@ -2,16 +2,18 @@
   "name": "dot11-common",
   "version": "1.0.0",
   "description": "Common routines for dot11 apps",
-  "main": "dist/dot11-common.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjstacey/dot11-common.git"
+  },
   "author": "Robert Stacey <rjstacey@gmail.com>",
-  "license": "MIT",
-  "peerDependencies": {
-    "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
-    "prop-types": ">=15.7.2"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rjstacey/dot11-common/issues"
   },
-  "dependencies": {
-    "@emotion/core": "^10.0.27",
-    "@emotion/styled": "^10.0.27"
-  },
+  "homepage": "https://github.com/rjstacey/dot11-common#readme"
 }
