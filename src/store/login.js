@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import fetcher from 'dot11-common/store/fetcher'
-
+import fetcher from './fetcher'
 import {setError} from './error'
 
 const LOGIN_STORAGE = 'User';

@@ -1,17 +1,18 @@
 {
   "name": "dot11-common",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Common routines for dot11 apps",
   "main": "dist",
   "files": [
     "table",
     "store",
     "general",
-    "lib"
+    "lib",
+    "modals"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rm -rf table store general lib",
+    "prebuild": "rm -rf table store general lib modals",
     "build": "babel --copy-files --out-dir . src"
   },
   "repository": {
@@ -43,12 +44,13 @@
   "dependencies": {
     "file-saver": "^2.0.5",
     "re-reselect": "^4.0.0",
+    "react-modal": "^3.12.1",
     "react-virtualized-auto-sizer": "^1.0.5"
   },
   "peerDependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
     "react": "^17.0.0",
     "react-redux": "^7.2.2",
-    "@reduxjs/toolkit": "^1.5.0",
     "react-window": "^1.8.5"
   }
 }
