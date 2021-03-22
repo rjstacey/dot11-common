@@ -1,5 +1,5 @@
 node_modules
-store
-table
-general
-lib
+./store
+./table
+./general
+./lib

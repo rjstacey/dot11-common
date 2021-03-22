@@ -165,7 +165,7 @@ const ControlHeader = connect(
 
 ControlHeader.propTypes = {
 	dataSet: PropTypes.string.isRequired,
-	anchorRef: PropTypes.element.isRequired,
+	anchorRef: PropTypes.object.isRequired,
 }
 
 function _ControlCell({
