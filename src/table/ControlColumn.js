@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import styled from '@emotion/styled'
 
-import {Expander, DoubleExpander, Handle} from '../general/Icons'
+import {Expander, DoubleExpander, Handle} from '../lib/icons'
 import useClickOutside from '../lib/useClickOutside'
 import {Checkbox} from '../general/Form'
 

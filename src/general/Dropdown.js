@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from '@emotion/styled'
 import useClickOutside from '../lib/useClickOutside'
-import {ActionButton} from '../general/Icons'
+import {ActionButton} from '../lib/icons'
 
 const Wrapper = styled.div`
 	display: inline-block;

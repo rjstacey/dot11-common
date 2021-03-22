@@ -1,6 +1,6 @@
 {
   "name": "dot11-common",
-  "version": "1.0.8",
+  "version": "1.0.14",
   "description": "Common routines for dot11 apps",
   "main": "dist",
   "files": [
@@ -58,6 +58,6 @@
     "react": "^17.0.0",
     "react-redux": "^7.2.2",
     "react-window": "^1.8.5",
-    "@emotion/styled": "^11.1.5",
+    "@emotion/styled": "^11.1.5"
   }
 }

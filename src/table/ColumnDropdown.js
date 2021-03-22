@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import styled from '@emotion/styled'
 import {FixedSizeList as List} from 'react-window'
 
-import {Button, ActionButtonSort, Handle, IconSort, IconFilter} from '../general/Icons'
+import {Button, ActionButtonSort, Handle, IconSort, IconFilter} from '../lib/icons'
 import useClickOutside from '../lib/useClickOutside'
 import {Checkbox, Input} from '../general/Form'
 

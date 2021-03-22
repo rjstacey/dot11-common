@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useLocation, useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from '@emotion/styled'
-import {Handle} from '../general/Icons'
+import {Handle} from '../lib/icons'
 import useClickOutside from '../lib/useClickOutside'
 import {Title, Row, Col} from '../general/Form'
 

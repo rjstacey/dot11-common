@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from '@emotion/styled'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 // import what we use
@@ -23,49 +24,45 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faPlusSquare, faMinusSquare, faCopy } from '@fortawesome/free-regular-svg-icons';
 
-import styled from '@emotion/styled'
-
-export function init() {
-	library.add(
-		faFileUpload, faDownload, faFileExport, faFileImport,
-		faQuoteRight, faListUl, faListOl, faCode,
-		faBold, faItalic, faUnderline, faStrikethrough, faHighlighter, 
-		faUndo, faRedo,
-		faSync, faPlus, faTrashAlt,
-		faSortAlphaDown, faSortAlphaUp, faSortNumericDown, faSortNumericUp,
-		faFilter,
-		faWindowClose, faAngleDoubleDown,
-		faAngleDown, faAngleUp, faAngleLeft, faAngleRight,
-		faArrowCircleRight, faArrowCircleLeft, faArrowCircleUp, faArrowCircleDown,
-		faPlusSquare, faMinusSquare,
-		faColumns,
-		faSave,
-		faObjectGroup, faEdit,
-		faCaretSquareDown, faCaretSquareUp,
-		faHistory,
-		faCopy,
-		faUserSlash, faUserCheck
-	)
-}
+/*library.add(
+	faFileUpload, faDownload, faFileExport, faFileImport,
+	faQuoteRight, faListUl, faListOl, faCode,
+	faBold, faItalic, faUnderline, faStrikethrough, faHighlighter, 
+	faUndo, faRedo,
+	faSync, faPlus, faTrashAlt,
+	faSortAlphaDown, faSortAlphaUp, faSortNumericDown, faSortNumericUp,
+	faFilter,
+	faWindowClose, faAngleDoubleDown,
+	faAngleDown, faAngleUp, faAngleLeft, faAngleRight,
+	faArrowCircleRight, faArrowCircleLeft, faArrowCircleUp, faArrowCircleDown,
+	faPlusSquare, faMinusSquare,
+	faColumns,
+	faSave,
+	faObjectGroup, faEdit,
+	faCaretSquareDown, faCaretSquareUp,
+	faHistory,
+	faCopy,
+	faUserSlash, faUserCheck
+)*/
 
 export const Icon = FontAwesomeIcon;
 
 //export function IconClose(props) { return <FontAwesomeIcon icon='window-close' {...props} /> }
 
 export function IconSort({direction, isAlpha, ...props}) {
-	let icon = 'sort-' +
-		(isAlpha? 'alpha-': 'numeric-') +
-		(direction === 'ASC'? 'down': 'up')
-	return <FontAwesomeIcon icon={icon} {...props} />
+	const icon = direction === 'ASC'
+		? (isAlpha? faSortAlphaUp: faSortNumericUp)
+		: (isAlpha? faSortAlphaDown: faSortNumericDown);
+	return <FontAwesomeIcon icon={icon} {...props} />;
 }
 
 /*export const IconFilter = (props) =>
 	<svg width='1em' height='0.875em' role='img' viewBox="0 0 971.986 971.986" {...props} >
 		<path fill='currentColor' d="M370.216,459.3c10.2,11.1,15.8,25.6,15.8,40.6v442c0,26.601,32.1,40.101,51.1,21.4l123.3-141.3   c16.5-19.8,25.6-29.601,25.6-49.2V500c0-15,5.7-29.5,15.8-40.601L955.615,75.5c26.5-28.8,6.101-75.5-33.1-75.5h-873   c-39.2,0-59.7,46.6-33.1,75.5L370.216,459.3z"/>
 	</svg>*/
-export const IconFilter = (props) => <FontAwesomeIcon icon='filter' {...props} />
+export const IconFilter = (props) => <FontAwesomeIcon icon={faFilter} {...props} />
 
-export const IconCollapse = ({isCollapsed, ...props}) => <FontAwesomeIcon icon={['far', isCollapsed? 'plus-square': 'minus-square']} {...props} />
+export const IconCollapse = ({isCollapsed, ...props}) => <FontAwesomeIcon icon={isCollapsed? faPlusSquare: faMinusSquare} {...props} />
 
 export const ActionButtonSort = ({direction, isAlpha, ...props}) => {
 	let icon = 'sort-' +
@@ -132,31 +129,39 @@ export const Button = styled.button`
 export const ActionButton = ({name, ...otherProps}) => {
 
 	const icon = {
-		'refresh': 'sync',
-		'add': 'plus',
-		'delete': 'trash-alt',
-		'next': 'arrow-circle-right',
-		'prev': 'arrow-circle-left',
-		'import': 'file-import',
-		'export': 'file-export',
-		'upload': 'file-upload',
-		'more': 'angle-double-down',
-		'columns': 'columns',
-		'save': 'save',
-		'undo': 'undo',
-		'close': 'window-close',
-		'group': 'object-group',
-		'edit': 'edit',
-		'highlight': 'highlighter',
-		'quote': 'quote-right',
-		'unordered-list-item': 'list-ul',
-		'ordered-list-item': 'list-ol',
-		'dropdown-open': 'caret-square-down',
-		'dropdown-close': 'caret-square-up',
-		'history': 'history',
-		'copy': ['far', 'copy'],
-		'user-slash': 'user-slash',
-		'user-check': 'user-check'
+		'refresh': faSync,
+		'add': faPlus,
+		'delete': faTrashAlt,
+		'next': faArrowCircleRight,
+		'prev': faArrowCircleLeft,
+		'import': faFileImport,
+		'export': faFileExport,
+		'upload': faFileUpload,
+		'more': faAngleDoubleDown,
+		'columns': faColumns,
+		'save': faSave,
+		'undo': faUndo,
+		'redo': faRedo,
+		'close': faWindowClose,
+		'group': faObjectGroup,
+		'edit': faEdit,
+		
+		/* editing: inline styles */
+		'bold': faBold,
+		'italic': faItalic,
+		'underline': faUnderline,
+		'strikethrough': faStrikethrough,
+		'highlight': faHighlighter,
+		/* editing: block styles */
+		'quote': faQuoteRight,
+		'unordered-list-item': faListUl,
+		'ordered-list-item': faListOl,
+		'code': faCode,
+
+		'history': faHistory,
+		'copy': faCopy,
+		'user-slash': faUserSlash,
+		'user-check': faUserCheck
 	}[name] || name;
 
 	return (

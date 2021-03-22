@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from '@emotion/styled'
 import ReactDropdownSelect from 'react-dropdown-select'
-import {Spinner} from '../general/Icons'
+import {Spinner} from '../lib/icons'
 
 const StyledSelect = styled(ReactDropdownSelect)`
 	background-color: #fafafa;
