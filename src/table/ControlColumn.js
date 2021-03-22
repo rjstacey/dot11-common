@@ -8,10 +8,9 @@ import {Expander, DoubleExpander, Handle} from '../general/Icons'
 import useClickOutside from '../lib/useClickOutside'
 import {Checkbox} from '../general/Form'
 
-import {setSelected, toggleSelected} from '../store/actions/select'
-import {setExpanded, toggleExpanded} from '../store/actions/expand'
-import {getDataMap} from '../store/selectors/dataMap'
-
+import {getSelected, setSelected, toggleSelected} from '../store/selected'
+import {getExpanded, setExpanded, toggleExpanded} from '../store/expanded'
+import {getSortedFilteredIds} from '../store/dataSelectors'
 
 const CustomSelectorDropdown = styled.div`
 	position: absolute;
@@ -26,14 +25,13 @@ const CustomSelectorDropdown = styled.div`
 	z-index: 9;
 `;
 
-function renderDropdown({style, close, anchorRef, children}) {
-	return ReactDOM.createPortal(
+const renderDropdown = ({style, close, anchorRef, children}) =>
+	ReactDOM.createPortal(
 		<CustomSelectorDropdown style={style}>
 			{React.cloneElement(children, { close })}
 		</CustomSelectorDropdown>,
 		anchorRef.current
-	)
-}
+	);
 
 const CustomSelectorContainer = styled.div`
 	height: 22px;
@@ -41,8 +39,10 @@ const CustomSelectorContainer = styled.div`
 	text-align: center;
 `;
 
-function CustomSelector(props) {
-	const {anchorRef, children} = props;
+function CustomSelector({
+	anchorRef,
+	children
+}) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [position, setPosition] = React.useState({top: 0, left: 0});
 
@@ -95,29 +95,35 @@ const Container = styled.div`
 	align-items: center;
 `;
 
-const _ControlHeader = (props) => {
-	const {rowKey, data, dataMap, selected, setSelected, expanded, setExpanded, children} = props;
+function _ControlHeader({
+	shownIds,
+	selected,
+	setSelected,
+	expanded,
+	setExpanded,
+	anchorRef,
+	children
+}) {
 
 	const allSelected = React.useMemo(() => (
-			dataMap.length > 0 &&	// not if list is empty
-			dataMap.filter(i => !selected.includes(data[i][rowKey])).length === 0
+			shownIds.length > 0 &&	// not if list is empty
+			shownIds.filter(id => !selected.includes(id)).length === 0
 		),
-		[data, dataMap, selected, rowKey]
+		[shownIds, selected]
 	);
 
 	const isIndeterminate = !allSelected && selected.length;
 
 	const allExpanded = React.useMemo(() => (
 			expanded &&
-			dataMap.length > 0 &&	// not if list is empty
-			dataMap.filter(i => !expanded.includes(data[i][rowKey])).length === 0
+			shownIds.length > 0 &&	// not if list is empty
+			shownIds.filter(id => !expanded.includes(id)).length === 0
 		),
-		[data, dataMap, expanded, rowKey]
+		[shownIds, expanded]
 	);
 
-	const toggleAllSelected = () => setSelected(selected.length? []: dataMap.map(i => data[i][rowKey]));
-
-	const toggleAllExpanded = () => setExpanded(expanded.length? []: dataMap.map(i => data[i][rowKey]));
+	const toggleAllSelected = () => setSelected(selected.length? []: shownIds);
+	const toggleAllExpanded = () => setExpanded(expanded.length? []: shownIds);
 
 	return (
 		<Container>
@@ -130,7 +136,7 @@ const _ControlHeader = (props) => {
 				/>
 				{children &&
 					<CustomSelector
-						anchorRef={props.anchorRef}
+						anchorRef={anchorRef}
 						children={children}
 					/>}
 			</Selector>
@@ -145,12 +151,11 @@ const _ControlHeader = (props) => {
 	)
 }
 
-export const ControlHeader = connect(
+const ControlHeader = connect(
 	(state, ownProps) => ({
-		selected: state[ownProps.dataSet].selected,
-		expanded: state[ownProps.dataSet].expanded,
-		data: state[ownProps.dataSet][ownProps.dataSet],
-		dataMap: getDataMap(state, ownProps.dataSet),
+		selected: getSelected(state, ownProps.dataSet),
+		expanded: getExpanded(state, ownProps.dataSet),
+		shownIds: getSortedFilteredIds(state, ownProps.dataSet)
 	}),
 	(dispatch, ownProps) => ({
 		setSelected: ids => dispatch(setSelected(ownProps.dataSet, ids)),
@@ -158,7 +163,19 @@ export const ControlHeader = connect(
 	})
 )(_ControlHeader);
 
-const _ControlCell = ({rowKey, rowData, selected, toggleSelected, expanded, toggleExpanded}) => {
+ControlHeader.propTypes = {
+	dataSet: PropTypes.string.isRequired,
+	anchorRef: PropTypes.element.isRequired,
+}
+
+function _ControlCell({
+	rowKey,
+	rowData,
+	selected,
+	toggleSelected,
+	expanded,
+	toggleExpanded
+}) {
 	const id = rowData[rowKey]
 	return (
 		<Container onClick={e => e.stopPropagation()} >
@@ -179,21 +196,27 @@ const _ControlCell = ({rowKey, rowData, selected, toggleSelected, expanded, togg
 }
 
 _ControlCell.propTypes = {
-	rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-	dataSet: PropTypes.string.isRequired,
 	selected: PropTypes.array.isRequired,
 	toggleSelected: PropTypes.func.isRequired,
 	expanded: PropTypes.array,
 	toggleExpanded: PropTypes.func,
 }
 
-export const ControlCell = connect(
+const ControlCell = connect(
 	(state, ownProps) => ({
-		selected: state[ownProps.dataSet].selected,
-		expanded: state[ownProps.dataSet].expanded
+		selected: getSelected(state, ownProps.dataSet),
+		expanded: getExpanded(state, ownProps.dataSet)
 	}),
 	(dispatch, ownProps) => ({
 		toggleSelected: id => dispatch(toggleSelected(ownProps.dataSet, [id])),
 		toggleExpanded: id => dispatch(toggleExpanded(ownProps.dataSet, [id]))
 	})
 )(_ControlCell)
+
+ControlCell.propTypes = {
+	dataSet: PropTypes.string.isRequired,
+	rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+	rowData: PropTypes.object.isRequired,
+}
+
+export {ControlHeader, ControlCell};

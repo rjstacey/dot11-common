@@ -48,18 +48,16 @@ class TableRow extends React.Component {
 			rowIndex,
 			rowData,
 			rowKey,
-			dataSet,
 			isExpanded,
 			estimatedRowHeight,
 			onRowHeightChange,
 			onRowClick,
-			onRowDoubleClick,
 			...otherProps
 		} = this.props;
 		/* eslint-enable no-unused-vars */
 
-		const cells = columns.map((column, key) => {
-			const {headerRenderer, cellRenderer, width, flexGrow, flexShrink, ...colProps} = column;
+		const cells = columns.map(column => {
+			const {headerRenderer, cellRenderer, width, flexGrow, flexShrink, key: dataKey, ...colProps} = column;
 			const style = {
 				flexBasis: width,
 				flexGrow: fixed? 0: flexGrow,
@@ -67,25 +65,23 @@ class TableRow extends React.Component {
 				overflow: 'hidden'	// necessary to ensure that the content does not affect size
 			}
 			const renderer = cellRenderer || defaultCellRenderer;
-			const props = {rowIndex, rowData, dataSet, rowKey, dataKey: key, ...colProps}
+			const props = {rowIndex, rowData, rowKey, dataKey, ...colProps}
 			return (
 				<div
-					key={key}
+					key={dataKey}
 					className='AppTable__dataCell'
 					style={style}
 				>
 					{renderer(props)}
 				</div>
 			)
-		}).toArray()
+		})
 
 		let rowStyle = {...style}
-		if (!this.state.measured && isExpanded) {
+		if (!this.state.measured && isExpanded)
 			delete rowStyle.height
-		}
 
 		const onClick = onRowClick? event => onRowClick({event, rowIndex, rowData}): undefined
-		const onDoubleClick = onRowDoubleClick? event => onRowDoubleClick({event, rowIndex, rowData}): undefined
 
 	  	return (
 			<BodyRow
@@ -94,7 +90,6 @@ class TableRow extends React.Component {
 				className={className}
 				style={rowStyle}
 				onClick={onClick}
-				onDoubleClick={onDoubleClick}
 			>
 				{cells}
 			</BodyRow>
@@ -117,7 +112,7 @@ TableRow.propTypes = {
 	className: PropTypes.string,
 	style: PropTypes.object,
 	fixed: PropTypes.bool,
-	columns: PropTypes.object.isRequired,
+	columns: PropTypes.array.isRequired,
 	rowIndex: PropTypes.number.isRequired,
 	rowData: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
 	rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

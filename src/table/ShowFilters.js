@@ -3,8 +3,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import styled from '@emotion/styled'
 
-import {getDataMap} from '../store/selectors/dataMap'
-import {removeFilter, clearAllFilters} from '../store/actions/filter'
+import {getData, getSortedFilteredIds} from '../store/dataSelectors'
+import {getFilters, removeFilter, clearAllFilters} from '../store/filters'
 
 const ActiveFilterLabel = styled.label`
 	font-weight: bold;
@@ -103,11 +103,16 @@ const FiltersContent = styled.div`
 	border-radius: 3px;
 `;
 
-function ShowFilters({style, className, data, dataMap, filters, removeFilter, clearAllFilters, ...otherProps}) {
-
-	const shownRows = dataMap.length;
-	const totalRows = data.length;
-
+function ShowFilters({
+	style,
+	className,
+	totalRows,
+	shownRows,
+	filters,
+	removeFilter,
+	clearAllFilters,
+	...otherProps
+}) {
 	const activeFilterElements = renderActiveFilters({filters, removeFilter, clearAllFilters})
 
 	return (
@@ -127,8 +132,8 @@ function ShowFilters({style, className, data, dataMap, filters, removeFilter, cl
 }
 
 ShowFilters.propTypes = {
-	data: PropTypes.array.isRequired,
-	dataMap: PropTypes.array.isRequired,
+	totalRows: PropTypes.number.isRequired,
+	shownRows: PropTypes.number.isRequired,
 	filters: PropTypes.object.isRequired,
 	removeFilter: PropTypes.func.isRequired,
 	clearAllFilters: PropTypes.func.isRequired
@@ -138,9 +143,9 @@ export default connect(
 	(state, ownProps) => {
 		const {dataSet} = ownProps
 		return {
-			data: state[dataSet][dataSet],
-			dataMap: getDataMap(state, dataSet),
-			filters: state[dataSet].filters,
+			totalRows: getData(state, dataSet).length,
+			shownRows: getSortedFilteredIds(state, dataSet).length,
+			filters: getFilters(state, dataSet)
 		}
 	},
 	(dispatch, ownProps) => {

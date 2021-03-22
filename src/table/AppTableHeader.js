@@ -2,9 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {DraggableCore} from 'react-draggable'
 import styled from '@emotion/styled'
-import ColumnDropdown from './ColumnDropdown'
-
-const defaultHeaderCellRenderer = (props) => <ColumnDropdown {...props}/>
 
 const HeaderCell = styled.div`
 	display: flex;
@@ -84,12 +81,12 @@ const HeaderRow = styled.div`
 	setColumnWidth,
 	setTableWidth,
 	rowKey,
-	dataSet}, ref) => {
+	defaultHeaderCellRenderer}, ref) => {
 
 	const anchorRef = React.useRef();
 
-	const cells = columns.map((column, key) => {
-		const {headerRenderer, width, flexGrow, flexShrink, ...colProps} = column;
+	const cells = columns.map((column) => {
+		const {headerRenderer, width, flexGrow, flexShrink, key: dataKey, ...colProps} = column;
 		const style = {
 			flexBasis: width,
 			flexGrow: fixed? 0: flexGrow,
@@ -97,10 +94,10 @@ const HeaderRow = styled.div`
 			overflow: 'hidden'	// necessary so that the content does not affect size
 		}
 		const renderer = headerRenderer || defaultHeaderCellRenderer
-		const props = {anchorRef, dataKey: key, column, rowKey, dataSet, ...colProps}
+		const props = {anchorRef, dataKey, column, rowKey, ...colProps}
 		return (
 			<HeaderCell
-				key={key}
+				key={dataKey}
 				className='AppTable__headerCell'
 				style={style}
 			>
@@ -108,11 +105,11 @@ const HeaderRow = styled.div`
 					{renderer(props)}
 				</HeaderCellContent>
 				<ColumnResizer
-					setWidth={deltaX => setColumnWidth(key, deltaX)}
+					setWidth={deltaX => setColumnWidth(dataKey, deltaX)}
 				/>
 			</HeaderCell>
 		)
-	}).toArray()
+	})
 
 	const classNames = [className, 'AppTable__headerRow'].join(' ')
 
@@ -144,11 +141,11 @@ TableHeader.propTypes = {
 	outerStyle: PropTypes.object,
 	innerStyle: PropTypes.object,
 	fixed: PropTypes.bool,
-	columns: PropTypes.object.isRequired,
+	columns: PropTypes.array.isRequired,
 	setColumnWidth: PropTypes.func.isRequired,
 	setTableWidth: PropTypes.func,
 	rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	dataSet: PropTypes.string.isRequired,
+	defaultHeaderCellRenderer: PropTypes.func,
 }
 
 export default TableHeader

@@ -3,7 +3,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 // import what we use
 import {
-	faFileUpload, faDownload,
+	faFileUpload, faDownload, faFileExport, faFileImport,
 	faHighlighter, faBold, faItalic, faStrikethrough, faUnderline,
 	faUndo, faRedo,
 	faQuoteRight, faListUl, faListOl, faCode,
@@ -14,12 +14,12 @@ import {
 	faAngleDown, faAngleUp, faAngleLeft, faAngleRight,
 	faArrowCircleRight, faArrowCircleLeft, faArrowCircleUp, faArrowCircleDown,
 	//faPlusSquare, faMinusSquare,
-	faFileExport,
 	faColumns,
 	faSave,
-	faObjectGroup, faUserCheck, faEdit,
+	faObjectGroup, faEdit,
 	faCaretSquareDown, faCaretSquareUp,
 	faHistory,
+	faUserSlash, faUserCheck
 } from '@fortawesome/free-solid-svg-icons'
 import { faPlusSquare, faMinusSquare, faCopy } from '@fortawesome/free-regular-svg-icons';
 
@@ -27,7 +27,7 @@ import styled from '@emotion/styled'
 
 export function init() {
 	library.add(
-		faFileUpload, faDownload,
+		faFileUpload, faDownload, faFileExport, faFileImport,
 		faQuoteRight, faListUl, faListOl, faCode,
 		faBold, faItalic, faUnderline, faStrikethrough, faHighlighter, 
 		faUndo, faRedo,
@@ -38,13 +38,13 @@ export function init() {
 		faAngleDown, faAngleUp, faAngleLeft, faAngleRight,
 		faArrowCircleRight, faArrowCircleLeft, faArrowCircleUp, faArrowCircleDown,
 		faPlusSquare, faMinusSquare,
-		faFileExport,
 		faColumns,
 		faSave,
-		faObjectGroup, faUserCheck, faEdit,
+		faObjectGroup, faEdit,
 		faCaretSquareDown, faCaretSquareUp,
 		faHistory,
-		faCopy
+		faCopy,
+		faUserSlash, faUserCheck
 	)
 }
 
@@ -137,16 +137,15 @@ export const ActionButton = ({name, ...otherProps}) => {
 		'delete': 'trash-alt',
 		'next': 'arrow-circle-right',
 		'prev': 'arrow-circle-left',
-		'import': 'download',
+		'import': 'file-import',
+		'export': 'file-export',
 		'upload': 'file-upload',
 		'more': 'angle-double-down',
-		'export': 'file-export',
 		'columns': 'columns',
 		'save': 'save',
 		'undo': 'undo',
 		'close': 'window-close',
 		'group': 'object-group',
-		'assignment': 'user-check',
 		'edit': 'edit',
 		'highlight': 'highlighter',
 		'quote': 'quote-right',
@@ -155,7 +154,9 @@ export const ActionButton = ({name, ...otherProps}) => {
 		'dropdown-open': 'caret-square-down',
 		'dropdown-close': 'caret-square-up',
 		'history': 'history',
-		'copy': ['far', 'copy']
+		'copy': ['far', 'copy'],
+		'user-slash': 'user-slash',
+		'user-check': 'user-check'
 	}[name] || name;
 
 	return (
