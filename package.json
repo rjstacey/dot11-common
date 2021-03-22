@@ -1,6 +1,6 @@
 {
   "name": "dot11-common",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Common routines for dot11 apps",
   "main": "dist",
   "files": [
@@ -42,8 +42,14 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "file-saver": "^2.0.5",
     "re-reselect": "^4.0.0",
+    "react-draggable": "^4.4.3",
+    "react-dropdown-select": "^4.7.4",
     "react-modal": "^3.12.1",
     "react-virtualized-auto-sizer": "^1.0.5"
   },
@@ -51,6 +57,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "react": "^17.0.0",
     "react-redux": "^7.2.2",
-    "react-window": "^1.8.5"
+    "react-window": "^1.8.5",
+    "@emotion/styled": "^11.1.5",
   }
 }
