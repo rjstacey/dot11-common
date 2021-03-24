@@ -64,12 +64,10 @@ export const IconFilter = (props) => <FontAwesomeIcon icon={faFilter} {...props}
 
 export const IconCollapse = ({isCollapsed, ...props}) => <FontAwesomeIcon icon={isCollapsed? faPlusSquare: faMinusSquare} {...props} />
 
-export const ActionButtonSort = ({direction, isAlpha, ...props}) => {
-	let icon = 'sort-' +
-		(isAlpha? 'alpha-': 'numeric-') +
-		(direction === 'ASC'? 'down': 'up')
-	return <ActionButton name={icon} {...props} />
-}
+export const ActionButtonSort = ({direction, isAlpha, ...props}) => 
+	<Button {...props}>
+		<IconSort direction={direction} isAlpha={isAlpha} />
+	</Button>
 
 export const ButtonGroup = styled.div`
 	display: inline-block;

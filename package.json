@@ -1,6 +1,6 @@
 {
   "name": "dot11-common",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Common routines for dot11 apps",
   "main": "dist",
   "files": [
