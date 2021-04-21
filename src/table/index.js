@@ -5,4 +5,4 @@ import ColumnDropdown from './ColumnDropdown'
 import ColumnSelector from './ColumnSelector'
 
 export default AppTable;
-export {ControlHeader, ControlCell, ColumnDropdown, ColumnSelecotr, ShowFilters}
+export {ControlHeader, ControlCell, ColumnDropdown, ColumnSelector, ShowFilters}
