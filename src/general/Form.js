@@ -18,25 +18,25 @@ const StyledSelect = styled(ReactDropdownSelect)`
 	:hover {
 		border-color: #0074D9;
 	}
-	&.react-dropdown-select-dropdown {
+	.react-dropdown-select-dropdown {
 		z-index: 15;
 	}
-	&.react-dropdown-select {
+	.react-dropdown-select {
 		opacity: unset;	/* don't change opacity when disabled */
 	}
-	& .react-dropdown-select-content {
+	.react-dropdown-select-content {
 		flex-wrap: nowrap;
 		line-height: 25px;
 		align-items: center;
 	}
-	& .react-dropdown-select-input {
+	.react-dropdown-select-input {
 		font-size: unset;
 		&::placeholder {
 			font-style: italic;
 			color: GreyText;
 		}
 	}
-	& .react-dropdown-select-clear {
+	.react-dropdown-select-clear {
 		margin: 0;
 	}
 `;
@@ -63,6 +63,7 @@ const Input = styled.input`
 	-webkit-appearance: none;
 	background-color: #fafafa;
 	border: 1px solid #ddd;
+	box-sizing: border-box;
 	/*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);*/
 
 	:focus {

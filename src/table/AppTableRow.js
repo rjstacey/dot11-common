@@ -46,6 +46,7 @@ class TableRow extends React.Component {
 			className,
 			columns,
 			rowIndex,
+			rowId,
 			rowData,
 			rowKey,
 			isExpanded,
@@ -65,7 +66,7 @@ class TableRow extends React.Component {
 				overflow: 'hidden'	// necessary to ensure that the content does not affect size
 			}
 			const renderer = cellRenderer || defaultCellRenderer;
-			const props = {rowIndex, rowData, rowKey, dataKey, ...colProps}
+			const props = {rowIndex, rowId, rowData, rowKey, dataKey, ...colProps}
 			return (
 				<div
 					key={dataKey}
@@ -81,7 +82,7 @@ class TableRow extends React.Component {
 		if (!this.state.measured && isExpanded)
 			delete rowStyle.height
 
-		const onClick = onRowClick? event => onRowClick({event, rowIndex, rowData}): undefined
+		const onClick = onRowClick? event => onRowClick({event, rowIndex}): undefined
 
 	  	return (
 			<BodyRow

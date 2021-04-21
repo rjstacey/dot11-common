@@ -28,7 +28,7 @@ const defaultModalStyle = {
 		top: 0,
 		bottom: 0,
 		backgroundColor: 'rgba(0,0,0,0)', /* Black w/ opacity */
-		zIndex: 10
+		zIndex: 6
 	}
 }
 

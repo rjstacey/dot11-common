@@ -57,20 +57,20 @@ const HeaderAnchor = styled.div`
 
 const HeaderContainer = styled.div`
 	overflow: hidden;
-	box-sizing: border-box;
 `;
 
 const HeaderRow = styled.div`
 	display: flex;
-	box-sizing: border-box;
 	height: 100%;
 `;
 
 /**
  * TableHeader component for AppTable
  *
- * HeaderCellAnchor is of zero width and provides an attachment point (outside the 'overflow: hidden') for dropdown overlays
- * HeaderCell containst the header cell content and column resizer
+ * HeaderAnchor provides an attachment point (outside the 'overflow: hidden') for dropdown overlays
+ * HeaderContainer is the viewport for HeaderRow; same width as the data table row
+ * HeaderRow is the full header and may exceed the viewport width; scolled by the data table horizontal scroll bar
+ * A HeaderCell is present for each column and contains the header cell content and column resizer
  */
  const TableHeader = React.forwardRef(({
 	className,

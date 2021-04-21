@@ -169,26 +169,24 @@ ControlHeader.propTypes = {
 }
 
 function _ControlCell({
-	rowKey,
-	rowData,
+	rowId,
 	selected,
 	toggleSelected,
 	expanded,
 	toggleExpanded
 }) {
-	const id = rowData[rowKey]
 	return (
 		<Container onClick={e => e.stopPropagation()} >
 			<Checkbox
 				title="Select row"
-				checked={selected.includes(id)}
-				onChange={() => toggleSelected(id)}
+				checked={selected.includes(rowId)}
+				onChange={() => toggleSelected(rowId)}
 			/>
 			{expanded && 
 				<Expander
 					title="Expand row"
-					open={expanded.includes(id)}
-					onClick={() => toggleExpanded(id)}
+					open={expanded.includes(rowId)}
+					onClick={() => toggleExpanded(rowId)}
 				/>
 			}
 		</Container>
@@ -215,8 +213,7 @@ const ControlCell = connect(
 
 ControlCell.propTypes = {
 	dataSet: PropTypes.string.isRequired,
-	rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-	rowData: PropTypes.object.isRequired,
+	rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 }
 
 export {ControlHeader, ControlCell};

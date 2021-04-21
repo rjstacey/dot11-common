@@ -24,30 +24,52 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faPlusSquare, faMinusSquare, faCopy } from '@fortawesome/free-regular-svg-icons';
 
-/*library.add(
-	faFileUpload, faDownload, faFileExport, faFileImport,
-	faQuoteRight, faListUl, faListOl, faCode,
-	faBold, faItalic, faUnderline, faStrikethrough, faHighlighter, 
-	faUndo, faRedo,
-	faSync, faPlus, faTrashAlt,
-	faSortAlphaDown, faSortAlphaUp, faSortNumericDown, faSortNumericUp,
-	faFilter,
-	faWindowClose, faAngleDoubleDown,
-	faAngleDown, faAngleUp, faAngleLeft, faAngleRight,
-	faArrowCircleRight, faArrowCircleLeft, faArrowCircleUp, faArrowCircleDown,
-	faPlusSquare, faMinusSquare,
-	faColumns,
-	faSave,
-	faObjectGroup, faEdit,
-	faCaretSquareDown, faCaretSquareUp,
-	faHistory,
-	faCopy,
-	faUserSlash, faUserCheck
-)*/
+const nameToIcon = (name) =>
+	({
+		'refresh': faSync,
+		'add': faPlus,
+		'delete': faTrashAlt,
+		'next': faArrowCircleRight,
+		'prev': faArrowCircleLeft,
+		'import': faFileImport,
+		'export': faFileExport,
+		'upload': faFileUpload,
+		'more': faAngleDoubleDown,
+		'columns': faColumns,
+		'save': faSave,
+		'undo': faUndo,
+		'redo': faRedo,
+		'close': faWindowClose,
+		'group': faObjectGroup,
+		'edit': faEdit,
+		
+		/* editing: inline styles */
+		'bold': faBold,
+		'italic': faItalic,
+		'underline': faUnderline,
+		'strikethrough': faStrikethrough,
+		'highlight': faHighlighter,
 
-export const Icon = FontAwesomeIcon;
+		/* editing: block styles */
+		'quote': faQuoteRight,
+		'unordered-list-item': faListUl,
+		'ordered-list-item': faListOl,
+		'code': faCode,
 
-//export function IconClose(props) { return <FontAwesomeIcon icon='window-close' {...props} /> }
+		'history': faHistory,
+		'copy': faCopy,
+		'user-slash': faUserSlash,
+		'user-check': faUserCheck
+	}[name]);
+
+export const Icon = ({name, ...rest}) => {
+	const icon = nameToIcon(name);
+	if (!icon) {
+		console.warn('Unknown icon: ', name)
+		return null
+	}
+	return <FontAwesomeIcon icon={icon} {...rest} />
+}
 
 export function IconSort({direction, isAlpha, ...props}) {
 	const icon = direction === 'ASC'
@@ -124,50 +146,11 @@ export const Button = styled.button`
 	}
 `;
 
-export const ActionButton = ({name, ...otherProps}) => {
+export const ActionButton = ({name, ...rest}) => 
+	<Button {...rest}>
+		<Icon name={name} />
+	</Button>
 
-	const icon = {
-		'refresh': faSync,
-		'add': faPlus,
-		'delete': faTrashAlt,
-		'next': faArrowCircleRight,
-		'prev': faArrowCircleLeft,
-		'import': faFileImport,
-		'export': faFileExport,
-		'upload': faFileUpload,
-		'more': faAngleDoubleDown,
-		'columns': faColumns,
-		'save': faSave,
-		'undo': faUndo,
-		'redo': faRedo,
-		'close': faWindowClose,
-		'group': faObjectGroup,
-		'edit': faEdit,
-		
-		/* editing: inline styles */
-		'bold': faBold,
-		'italic': faItalic,
-		'underline': faUnderline,
-		'strikethrough': faStrikethrough,
-		'highlight': faHighlighter,
-		/* editing: block styles */
-		'quote': faQuoteRight,
-		'unordered-list-item': faListUl,
-		'ordered-list-item': faListOl,
-		'code': faCode,
-
-		'history': faHistory,
-		'copy': faCopy,
-		'user-slash': faUserSlash,
-		'user-check': faUserCheck
-	}[name] || name;
-
-	return (
-		<Button {...otherProps}>
-			<FontAwesomeIcon icon={icon} />
-		</Button>
-	)
-}
 
 const IconContainer = styled.div`
 	cursor: pointer;
