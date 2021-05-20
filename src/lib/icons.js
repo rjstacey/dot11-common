@@ -4,7 +4,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 // import what we use
 import {
-	faFileUpload, faDownload, faFileExport, faFileImport,
+	faFileUpload, faFileDownload, faFileExport, faFileImport,
 	faHighlighter, faBold, faItalic, faStrikethrough, faUnderline,
 	faUndo, faRedo,
 	faQuoteRight, faListUl, faListOl, faCode,
@@ -20,7 +20,8 @@ import {
 	faObjectGroup, faEdit,
 	faCaretSquareDown, faCaretSquareUp,
 	faHistory,
-	faUserSlash, faUserCheck
+	faUserSlash, faUserCheck,
+	faBookOpen,
 } from '@fortawesome/free-solid-svg-icons'
 import { faPlusSquare, faMinusSquare, faCopy } from '@fortawesome/free-regular-svg-icons';
 
@@ -34,6 +35,7 @@ const nameToIcon = (name) =>
 		'import': faFileImport,
 		'export': faFileExport,
 		'upload': faFileUpload,
+		'download': faFileDownload,
 		'more': faAngleDoubleDown,
 		'columns': faColumns,
 		'save': faSave,
@@ -42,7 +44,12 @@ const nameToIcon = (name) =>
 		'close': faWindowClose,
 		'group': faObjectGroup,
 		'edit': faEdit,
-		
+		'book-open': faBookOpen,
+		'history': faHistory,
+		'copy': faCopy,
+		'user-slash': faUserSlash,
+		'user-check': faUserCheck,
+
 		/* editing: inline styles */
 		'bold': faBold,
 		'italic': faItalic,
@@ -55,11 +62,6 @@ const nameToIcon = (name) =>
 		'unordered-list-item': faListUl,
 		'ordered-list-item': faListOl,
 		'code': faCode,
-
-		'history': faHistory,
-		'copy': faCopy,
-		'user-slash': faUserSlash,
-		'user-check': faUserCheck
 	}[name]);
 
 export const Icon = ({name, ...rest}) => {
@@ -121,7 +123,7 @@ export const ButtonGroup = styled.div`
 
 export const Button = styled.button`
 	display: inline-block;
-	margin-right: 5px;
+	margin: 0 5px;
 	padding: 3px;
 	box-sizing: border-box;
 	background: none ${({isActive}) => isActive? '#d8d8d8': '#fdfdfd'};
@@ -133,7 +135,6 @@ export const Button = styled.button`
 	font-size: inherit;
 	font-family: inherit;
 	cursor: pointer;
-	white-space: nowrap;
 	:disabled {
 		cursor: not-allowed;
 		background: none transparent;
@@ -146,9 +147,9 @@ export const Button = styled.button`
 	}
 `;
 
-export const ActionButton = ({name, ...rest}) => 
+export const ActionButton = ({name, label, ...rest}) => 
 	<Button {...rest}>
-		<Icon name={name} />
+		{name? <Icon name={name} />: label}
 	</Button>
 
 

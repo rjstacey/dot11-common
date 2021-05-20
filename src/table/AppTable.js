@@ -55,7 +55,6 @@ const Table = styled.div`
 	.AppTable__headerCell {
 	}
 	.AppTable__dataCell {
-		box-sizing: content-box;
 		padding-right: 10px;
 	}
 `;

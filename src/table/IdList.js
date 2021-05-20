@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 import {Editor, EditorState, ContentState, CompositeDecorator} from 'draft-js'
 import 'draft-js/dist/Draft.css'
 import {Cross} from '../lib/icons'
+import {parseNumber} from '../lib/utils'
 import {setSelected} from '../store/selected'
 import {setFilter} from '../store/filters'
 
@@ -24,7 +25,7 @@ const Container = styled.div`
 
 const idRegex = /[^\s,]+/g; // /\d+\.\d+|\d+/g
 
-function IdList({style, className, ids, idValid, onChange, focusOnMount, close}) {
+function IdList({style, className, ids, isValid, isNumber, onChange, focusOnMount, close}) {
 	const editorRef = React.useRef();
 	const [editorState, setEditorState] = React.useState(initState);
 
@@ -61,7 +62,8 @@ function IdList({style, className, ids, idValid, onChange, focusOnMount, close})
 		let matchArr, start;
 		while ((matchArr = idRegex.exec(text)) !== null) {
 			start = matchArr.index;
-			if (!idValid(matchArr[0]))
+			const id = isNumber? parseNumber(matchArr[0]): matchArr[0];
+			if (!isValid(id))
 				callback(start, start + matchArr[0].length);
 		}
 	}
@@ -88,9 +90,20 @@ function IdList({style, className, ids, idValid, onChange, focusOnMount, close})
 
 	function emitChange(state) {
 		const s = state.getCurrentContent().getPlainText();
-		const updatedIds = s.match(idRegex) || [];
+		let updatedIds = s.match(idRegex) || [];
+		if (isNumber)
+			updatedIds = updatedIds.map(id => parseNumber(id));
 		if (updatedIds.join() !== ids.join())
 			onChange(updatedIds);
+	}
+
+	function handleKeyCommand(command) {
+		if (command === 'enter') {
+			// Perform a request to save your contents, set
+			// a new `editorState`, etc.
+			return 'handled';
+		}
+		return 'not-handled';
 	}
 
 	return (
@@ -112,15 +125,14 @@ function IdList({style, className, ids, idValid, onChange, focusOnMount, close})
 	)
 }
 
-const idValid = (ids, id) => ids.includes(id);
-
 const IdFilter = connect(
 	(state, ownProps) => {
 		const {dataSet, dataKey} = ownProps;
 		const {ids, filters} = state[dataSet];
 		return {
 			ids: filters[dataKey].values.map(v => v.value) || [],
-			idValid: (id) => idValid(ids, id)
+			isValid: (id) => ids.includes(id),
+			isNumber: ids.length && typeof ids[0] === 'number'
 		}
 	},
 	(dispatch, ownProps) => {
@@ -142,7 +154,8 @@ const IdSelector = connect(
 		const {ids, selected} = state[dataSet];
 		return {
 			ids: selected,
-			idValid: (id) => idValid(ids, id)
+			isValid: (id) => ids.includes(id),
+			isNumber: ids.length && typeof ids[0] === 'number'
 		}
 	},
 	(dispatch, ownProps) => {

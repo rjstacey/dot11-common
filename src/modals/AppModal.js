@@ -12,7 +12,7 @@ const defaultModalStyle = {
 		width: 'fit-content',
 		maxWidth: '90%',
 		maxHeight: '80%',
-		overflow: 'auto',
+		overflow: 'unset',
 		transform: 'translate(-50%, 0)',
 		padding: '20px',
 		background: '#fff',

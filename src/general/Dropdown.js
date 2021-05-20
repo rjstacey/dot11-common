@@ -6,14 +6,13 @@ import {ActionButton} from '../lib/icons'
 
 const Wrapper = styled.div`
 	display: inline-block;
-	position: relative;
 	user-select: none;
 `;
 
 const DropdownContainer = styled.div`
 	position: absolute;
+	top: 3px;
 	right: 0;
-	top: 28px;
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
@@ -31,6 +30,7 @@ function ActionButtonDropdown({
 	style,
 	className,
 	name,
+	label,
 	title,
 	disabled,
 	children
@@ -38,26 +38,25 @@ function ActionButtonDropdown({
 	const [isOpen, setOpen] = React.useState(false);
 	const wrapperRef = React.useRef();
 	const dropdownRef = React.useRef();
+
 	const [dropdownStyle, setDropdownStyle] = React.useState({});
+
+	React.useEffect(() => {
+		// After mount; adjust if off screen to the left
+		if (dropdownRef.current) {
+			const bounds = dropdownRef.current.getBoundingClientRect();
+			const maxHeight = window.innerHeight - bounds.y;
+			const maxWidth = window.innerWidth;
+			const right = bounds.left < 0? bounds.left: 0;
+			setDropdownStyle({maxHeight, maxWidth, right});
+		}
+	}, [isOpen]);
 
 	const close = () => setOpen(false);
 
-	const childrenWithClose = React.Children.map(children, child =>
-		React.isValidElement(child)? React.cloneElement(child, {close}): child
+	const childrenWithClose = React.Children.map(children,
+		child => React.isValidElement(child)? React.cloneElement(child, {close}): child
 	);
-
-	React.useEffect(() => {
-		if (isOpen) {
-			const bounds = dropdownRef.current.getBoundingClientRect();
-			if (bounds.bottom > window.innerHeight)
-				setDropdownStyle(style => ({...style, maxHeight: window.innerHeight - bounds.top}))
-			if (bounds.left < 0)
-				setDropdownStyle(style => ({...style, position: 'fixed', top: bounds.y, left: 0, right: 'unset', maxWidth: window.innerWidth}))
-		}
-		else {
-			setDropdownStyle({})
-		}
-	}, [isOpen]);
 
 	useClickOutside(wrapperRef, close);
 
@@ -69,23 +68,27 @@ function ActionButtonDropdown({
 		>
 			<ActionButton
 				name={name}
+				label={label}
 				title={title}
 				disabled={disabled}
 				onClick={() => setOpen(!isOpen)}
 			/>
-			{isOpen &&
-				<DropdownContainer
-					ref={dropdownRef}
-					style={dropdownStyle}
-				>
-					{childrenWithClose}
-				</DropdownContainer>}
+			<div style={{position: 'relative'}}>
+				{isOpen &&
+					<DropdownContainer
+						ref={dropdownRef}
+						style={dropdownStyle}
+					>
+						{childrenWithClose}
+					</DropdownContainer>}
+			</div>
 		</Wrapper>
 	)
 }
 
 ActionButtonDropdown.propTypes = {
-	name: PropTypes.string.isRequired,
+	name: PropTypes.string,
+	label: PropTypes.string,
 	title: PropTypes.string,
 	disabled: PropTypes.bool,
 }
